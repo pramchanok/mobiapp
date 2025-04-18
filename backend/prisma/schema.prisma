@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  role     String  @default("user")
+  status   Boolean @default(true)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  createdBy Int? @map("created_by")
+  updatedBy Int? @map("updated_by")
+  deletedBy Int? @map("deleted_by")
+
+  profile Profile?
+
+  @@map("users") // 👈 map model นี้กับ table ชื่อ "users"
+}
+
+model Profile {
+  id         Int       @id @default(autoincrement())
+  userId     Int       @unique
+  name       String?
+  genderId   Int? // foreign key ไปที่ Gender
+  gender     Gender?   @relation(fields: [genderId], references: [id])
+  birthdate  DateTime?
+  phone      String?
+  address    String?
+  avatar     String?
+  position   String?
+  department String?
+  lineId     String?
+  facebook   String?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  createdBy Int? @map("created_by")
+  updatedBy Int? @map("updated_by")
+  deletedBy Int? @map("deleted_by")
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Gender {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  nameEn String?
+
+  profiles Profile[] // 👈 เชื่อมกลับ profile
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  createdBy Int? @map("created_by")
+  updatedBy Int? @map("updated_by")
+  deletedBy Int? @map("deleted_by")
+}
+
+// model Location {
+//   id        Int      @id @default(autoincrement())
+//   userId    Int
+//   latitude  Float
+//   longitude Float
+//   updatedAt DateTime @updatedAt
+// 
+//   user      User     @relation(fields: [userId], references: [id])
+// }

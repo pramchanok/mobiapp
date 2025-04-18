@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    env_file:
+      - ./frontend/.env.prod
+    restart: always
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    # environment:
+    #   - DATABASE_URL=postgres://postgres:root@db:5432/Mobiapp
+    # depends_on:
+    #   - db
+    env_file:
+      - ./backend/.env.prod
+    restart: always
+#   db:
+#     image: postgres:17
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: root
+#       POSTGRES_DB: Mobiapp
+#     ports:
+#       - "55432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     restart: always
+
+# volumes:
+#   pgdata:
