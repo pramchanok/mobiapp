@@ -17,10 +17,14 @@ export async function subscribeUser() {
 
     const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY) // 🔐 ใช้ public key ของ Toktak
+        applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY)
     });
 
-    await api.post("/notify/subscribe", JSON.stringify(subscription), {
+    const subObj = JSON.parse(JSON.stringify(subscription));
+    delete subObj.endpoint;
+    delete subObj.expirationTime;
+    
+    await api.post("/notify/subscribe", JSON.stringify(subObj), {
         headers: {
             'Content-Type': 'application/json'
         }

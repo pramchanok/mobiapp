@@ -18,10 +18,6 @@
 // import { onMounted } from "vue";
 // import { subscribeUser } from "@/utils/push";
 const userStore = useUserStore();
-
-onMounted(() => {
-    subscribeUser();
-});
 </script>
 
 <style scoped>

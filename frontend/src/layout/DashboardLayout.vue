@@ -21,6 +21,10 @@
 
 <script setup>
 import UserProfileCard from "@/components/dashboard/UserProfileCard.vue";
+
+onMounted(() => {
+    subscribeUser();
+});
 </script>
 
 <style scoped>

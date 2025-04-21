@@ -58,7 +58,7 @@ export default ({ mode }) => {
 				injectManifest: {
 					globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
 				},
-				includeAssets: ['app.ico', 'robots.txt'],
+				includeAssets: ['application.ico', 'robots.txt'],
 				manifest: {
 					name: 'Mobility App',
 					short_name: 'MobiApp',
